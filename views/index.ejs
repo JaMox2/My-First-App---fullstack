@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/22dd73ce13.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <section class="addToList">
+        <h1>Add to anime</h1>
+        <form action="/api/animeList" method="post">
+            <input class="input" type="text" name="animeName" placeholder="Anime name">
+            <input class="input" type="number" name="animeRating" placeholder="Anime rating - 0/10">
+            <div class="watchstatus">
+                <input type="checkbox" name="watchStatus" id="watchStatus">
+                <label for="watchStatus">Watched</label>
+            </div>
+
+            <button type="submit">Add Anime</button>
+        </form>
+    </section>
+
+    <section class="list">
+        <h1>Anime List</h1>
+        <ul>
+            <% for(let i = 0; i < anime.length; i++) {%>
+                <li>
+                    <span><%= anime[i].animeName.split(" ").map(x=>x.charAt(0).toUpperCase() + x.slice(1)).join(" ") %></span>
+                    <p>Rating: <span><%= anime[i].animeRating %>/10</span></p>
+                    <div class="btn">
+                        <% if(anime[i].watchStatus == 'on'){ %>
+                            <button class="watching changeStatus" onclick=<%=`updatePost(${i})` %>>Watched</button>  
+                            <button class="remove" onclick=<%=`deletePost(${i})` %>><i class="fa-solid fa-trash"></i></button>
+                        <% } else { %>
+                            <button class="watched changeStatus" onclick=<%=`updatePost(${i})` %>>Watched</button>
+                            <button class="remove" onclick=<%= `deletePost(${i})` %>><i class="fa-solid fa-trash"></i></button>
+                        <% } %>
+                    </div>
+                </li>
+            <%}%>
+        </ul>
+    </section>
+    
+    <script src="client.js"></script>
+</body>
+</html>
